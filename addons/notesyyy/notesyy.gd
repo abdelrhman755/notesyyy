@@ -1,22 +1,15 @@
 @tool
 extends EditorPlugin
 
-
-func _enable_plugin() -> void:
-	# Add autoloads here.
-	pass
-
-
-func _disable_plugin() -> void:
-	# Remove autoloads here.
-	pass
+var ui : Control
+func _enter_tree():
+	ui = Control.new()
+	ui.name = "Notesyyy"
+	add_control_to_dock(DOCK_SLOT_LEFT_UL, ui)
+	ui.custom_minimum_size = Vector2(250 , 400)
 
 
-func _enter_tree() -> void:
-	# Initialization of the plugin goes here.
-	pass
 
-
-func _exit_tree() -> void:
-	# Clean-up of the plugin goes here.
-	pass
+func _exit_tree():
+	remove_control_from_docks(ui)
+	ui.free()

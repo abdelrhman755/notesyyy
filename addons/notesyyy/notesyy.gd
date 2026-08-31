@@ -56,6 +56,8 @@ func _enter_tree():
 	container = VBoxContainer.new()
 	vbox.add_child(container)
 	
+	loadd()
+	
 	add_control_to_dock(DOCK_SLOT_LEFT_UL, ui)
 
 func _exit_tree():
@@ -64,8 +66,8 @@ func _exit_tree():
 		ui.queue_free()
 
 # function to add a note
-func add_note(text_from_line_edit: String = ""):
-	var note_text = text_from_line_edit.strip_edges()
+func add_note(tex: String = ""):
+	var note_text = tex.strip_edges()
 	if note_text == "":
 		note_text = line.text.strip_edges()
 	if note_text == "":
@@ -78,7 +80,7 @@ func inhanced_note(note_text: String):
 	var n_r = HBoxContainer.new()
 	var n_l = Label.new()
 	n_l.text = "• " + note_text
-	n_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL # will make the note take the remaining of the space
+	n_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
 	# delete btn
 	var del_btn = Button.new()
@@ -93,5 +95,25 @@ func inhanced_note(note_text: String):
 	n_r.add_child(del_btn)
 	container.add_child(n_r)
 	
+# function to save the note
 func save_note():
-	pass
+	var file = ConfigFile.new()
+	var all_notes: Array[String] = []
+	
+	# first collect the tasks from container
+	for row in container.get_children():
+		var label = row.get_child(0) 
+		if label:
+			#get the dot in the first to save the text in a clean shape
+			all_notes.append(label.text.trim_prefix("• "))
+	file.set_value("saved", "123", all_notes)
+	file.save(path)
+	
+# function to load the saved notes again
+func loadd():
+	var file = ConfigFile.new()
+	var e = file.load(path)
+	if e == OK:
+		var s_n = file.get_value("saved", "123", [])
+		for show in s_n:
+			inhanced_note(show)

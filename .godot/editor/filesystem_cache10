@@ -1,7 +1,8 @@
 78098b89c88a74ebe8c20117b8754620
-::res://::1788198933
+::res://::1788202415
 icon.svg::CompressedTexture2D::70984590080816512::1788042773::1788042779::1::::<><><>0<>0<>4f8e2296894593c0cc1d42e22e51aa6b<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 notesyyy_data.cfg::TextFile::-1::1788198918::0::1::::<><><>0<>0<><>::
+readme.md::TextFile::-1::1788202399::0::1::::<><><>0<>0<><>::
 ::res://addons/::1788043282
 ::res://addons/godot_super-wakatime/::1788042833
 api_key_prompt.tscn::PackedScene::3919262858641749045::1788042833::0::1::::<><><>0<>0<><>::

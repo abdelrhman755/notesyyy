@@ -6,7 +6,9 @@ var container: VBoxContainer
 var button: Button
 var line: LineEdit
 
+const path = "res://notesyyy_data.cfg"
 func _enter_tree():
+	
 	#making the dock 
 	ui = Control.new()
 	ui.name = "Notesyyy"
@@ -62,11 +64,34 @@ func _exit_tree():
 		ui.queue_free()
 
 # function to add a note
-func add_note(text_from_line_edit: String =""):
-	var note_text = line.text.strip_edges()
+func add_note(text_from_line_edit: String = ""):
+	var note_text = text_from_line_edit.strip_edges()
+	if note_text == "":
+		note_text = line.text.strip_edges()
 	if note_text == "":
 		return
-	var new_note = Label.new()
-	new_note.text = "• " + note_text
-	container.add_child(new_note)
+	inhanced_note(note_text)
 	line.clear()
+	save_note()
+	
+func inhanced_note(note_text: String):
+	var n_r = HBoxContainer.new()
+	var n_l = Label.new()
+	n_l.text = "• " + note_text
+	n_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL # will make the note take the remaining of the space
+	
+	# delete btn
+	var del_btn = Button.new()
+	del_btn.text = " ❌ "
+	del_btn.flat = true
+	del_btn.pressed.connect(func():
+		n_r.queue_free()
+		get_tree().process_frame.connect(save_note, CONNECT_ONE_SHOT)
+	)
+		
+	n_r.add_child(n_l)
+	n_r.add_child(del_btn)
+	container.add_child(n_r)
+	
+func save_note():
+	pass

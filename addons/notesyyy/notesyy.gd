@@ -34,13 +34,39 @@ func _enter_tree():
 	line = LineEdit.new()
 	line.placeholder_text = "Write a Note..."
 	vbox.add_child(line)
-	line.text_submitted.connect(add_note)
+	line.text_submitted.connect(add_note) # sending note to the line edit after pressing enter
+	
+	# making the add note botton
+	button = Button.new()
+	button.text = "Add Note"
+	button.pressed.connect(add_note)
+	vbox.add_child(button)
+	
+	# making a separating line
+	var separator = HSeparator.new()
+	var sep_style = StyleBoxLine.new()
+	sep_style.color = Color.WHITE
+	sep_style.thickness = 1
+	separator.add_theme_stylebox_override("separator", sep_style)
+	vbox.add_child(separator)
+	
+	#container of the added notes
+	container = VBoxContainer.new()
+	vbox.add_child(container)
 	
 	add_control_to_dock(DOCK_SLOT_LEFT_UL, ui)
 
 func _exit_tree():
 	remove_control_from_docks(ui)
-	ui.free()
+	if is_instance_valid(ui):
+		ui.queue_free()
 
-func add_note():
-	pass
+# function to add a note
+func add_note(text_from_line_edit: String =""):
+	var note_text = line.text.strip_edges()
+	if note_text == "":
+		return
+	var new_note = Label.new()
+	new_note.text = "• " + note_text
+	container.add_child(new_note)
+	line.clear()
